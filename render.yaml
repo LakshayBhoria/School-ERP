@@ -1,0 +1,27 @@
+services:
+  # --- Backend: Express API (Firebase Auth + Firestore) ---
+  - type: web
+    name: corvus-erp-backend
+    env: node
+    plan: free
+    rootDir: backend/erp-backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: FIREBASE_SERVICE_ACCOUNT
+        sync: false   # paste the service account JSON in the Render dashboard
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false   # e.g. https://corvus-erp-frontend.onrender.com
+      - key: PORT
+        value: 8080
+
+  # --- Frontend: single static HTML file ---
+  - type: web
+    name: corvus-erp-frontend
+    env: static
+    rootDir: frontend
+    buildCommand: ""
+    staticPublishPath: .
